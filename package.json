@@ -1,11 +1,11 @@
 {
-  "name": "blockchain-lab-2",
+  "name": "blockchain-lab",
   "version": "1.0.0",
   "description": "Blockchain & E-Commerce Lab #2",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/niksauer/blockchain-lab-2",
+  "repository": "https://github.com/niksauer/blockchain-lab",
   "license": "MIT",
   "keywords": [],
   "scripts": {
@@ -32,7 +32,7 @@
     "reset": "git clean -dfx && git reset --hard && npm i",
     "clean": "trash build test",
     "prepare-release": "run-s reset test cov:check doc:html version doc:publish",
-    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('blockchain-lab-2 must be installed with Yarn: https://yarnpkg.com/')\"",
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('blockchain-lab must be installed with Yarn: https://yarnpkg.com/')\"",
     "start": "node build/main/index.js"
   },
   "scripts-info": {
