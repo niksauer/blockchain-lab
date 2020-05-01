@@ -52,7 +52,10 @@
     "node": ">=8.9"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "bip39": "^3.0.2",
     "bitcoinjs-lib": "^5.1.7",
+    "dotenv": "^8.2.0",
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
