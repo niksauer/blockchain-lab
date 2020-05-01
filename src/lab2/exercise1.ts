@@ -33,8 +33,9 @@ export async function exercise1(): Promise<void> {
   const inputs: Input[] = [
     {
       transactionID:
-        '0b75ae6548775846332a49fcd1640d2a2cf2e89a0e7c2141f5b12252ed3e1f29', // input amount: 1,000,000 satoshi, output must be controlled by address
-      outputIndex: 1
+        '0b75ae6548775846332a49fcd1640d2a2cf2e89a0e7c2141f5b12252ed3e1f29', // input amount: 1000000 satoshi, output must be controlled by address
+      outputIndex: 1,
+      signer: [keyPair]
     }
   ];
   const outputs: Output[] = [
@@ -45,11 +46,10 @@ export async function exercise1(): Promise<void> {
   // validate: https://live.blockcypher.com/btc/decodetx/
   // broadcast: https://live.blockcypher.com/btc/pushtx/
   // broadcast API: https://www.blockcypher.com/dev/bitcoin/#push-raw-transaction-endpoint
-  const signedTransaction = createTransaction(
+  const signedTransaction = createTransactionDeprecated(
     network,
     inputs,
-    outputs,
-    keyPair
+    outputs
   );
   console.log(signedTransaction);
 }
@@ -79,25 +79,30 @@ function getAddress(
   keyPair: bitcoin.ECPairInterface,
   network: bitcoin.Network
 ): string | undefined {
-  return bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: network })
-    .address;
+  const { address } = bitcoin.payments.p2pkh({
+    pubkey: keyPair.publicKey,
+    network: network
+  });
+
+  return address;
 }
 
-interface Input {
+export interface Input {
   transactionID: string;
   outputIndex: number;
+  signer: bitcoin.ECPair.Signer[];
+  redeemScript?: Buffer;
 }
 
-interface Output {
+export interface Output {
   address: string;
   satoshi: number;
 }
 
-function createTransaction(
+export function createTransactionDeprecated(
   network: bitcoin.Network,
   inputs: Input[],
-  outputs: Output[],
-  signer: bitcoin.ECPair.Signer
+  outputs: Output[]
 ): string {
   const tx = new bitcoin.TransactionBuilder(network);
 
@@ -112,8 +117,10 @@ function createTransaction(
   }
 
   // sign inputs
-  for (let i = 0; i < inputs.length; i++) {
-    tx.sign(i, signer);
+  for (const [index, input] of inputs.entries()) {
+    for (const signer of input.signer) {
+      tx.sign(index, signer, input.redeemScript);
+    }
   }
 
   return tx.build().toHex();
