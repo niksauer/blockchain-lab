@@ -1,2 +1,18 @@
-console.log("hello")
-console.log(3+2)
+import dotenv from 'dotenv';
+dotenv.config();
+
+import { exercise1 } from './lab2/exercise1';
+import { exercise2 } from './lab2/exercise2';
+
+async function main() {
+  await exercise1();
+  await exercise2();
+}
+
+(async () => {
+  try {
+    await main();
+  } catch (error) {
+    console.log(error);
+  }
+})();
