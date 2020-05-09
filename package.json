@@ -55,6 +55,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bip39": "^3.0.2",
+    "bitcoin-json-rpc": "^1.0.1",
     "bitcoinjs-lib": "^5.1.7",
     "dotenv": "^8.2.0",
     "sha.js": "^2.4.11"
