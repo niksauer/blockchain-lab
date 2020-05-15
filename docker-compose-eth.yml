@@ -1,0 +1,23 @@
+version: "3.4"
+
+services:
+  blockchain:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - 8545:8545
+    command:
+      # https://github.com/trufflesuite/ganache-cli#using-ganache-cli
+      - "--accounts"
+      - "10"
+      - "--defaultBalanceEther"
+      - "1000"
+      - "--gasPrice"
+      - "1"
+      - "--mnemonic"
+      - "make purchase caution interest current shiver amount flat donkey sun coyote corn"
+      - "--port"
+      - "8545"
+      - "--db"
+      - "/ganache-data"
+    volumes:
+      - ./ganache-data:/ganache-data
