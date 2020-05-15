@@ -58,7 +58,9 @@
     "bitcoin-json-rpc": "^1.0.1",
     "bitcoinjs-lib": "^5.1.7",
     "dotenv": "^8.2.0",
-    "sha.js": "^2.4.11"
+    "sha.js": "^2.4.11",
+    "solc": "^0.6.8",
+    "web3": "^1.2.7"
   },
   "devDependencies": {
     "@bitjson/npm-scripts-info": "^1.0.0",

@@ -1,15 +1,23 @@
 version: "3.4"
 
-# https://bitcoincore.org/en/doc/0.19.0/
-# curl -v --data-binary '{"jsonrpc":"1.0","id":"1","method":"getnetworkinfo","params":[]}' http://bitcoin:verysecure@localhost:18332/
-# docker run -it --network=host --rm ruimarinho/bitcoin-core bitcoin-cli -rpcconnect=localhost -rpcuser=bitcoin -rpcpassword=verysecure -testnet getmininginfo
-# docker-compose exec --user bitcoin bitcoind bitcoin-cli -rpcuser=bitcoin -rpcpassword=verysecure -testnet getmininginfo
 services:
-  bitcoind:
-    image: ruimarinho/bitcoin-core
-    # https://github.com/bitcoin/bitcoin/blob/master/share/examples/bitcoin.conf
-    command: -printtoconsole -server=1 -testnet=1 -prune=550 -rpcallowip=0.0.0.0/0 -rpcbind=0.0.0.0 -rpcuser=bitcoin -rpcpassword=verysecure
-    volumes:
-      - ./bitcoin-data:/home/bitcoin/.bitcoin
+  ganache:
+    image: trufflesuite/ganache-cli:latest
     ports:
-      - 18332:18332 # json-rpc (testnet)
+      - 8545:8545
+    command:
+      # https://github.com/trufflesuite/ganache-cli#using-ganache-cli
+      - "--accounts"
+      - "10"
+      - "--defaultBalanceEther"
+      - "1000"
+      - "--gasPrice"
+      - "1"
+      - "--mnemonic"
+      - "make purchase caution interest current shiver amount flat donkey sun coyote corn"
+      - "--port"
+      - "8545"
+      - "--db"
+      - "/ganache-data"
+    volumes:
+      - ./ganache-data:/ganache-data
