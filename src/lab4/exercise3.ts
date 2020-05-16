@@ -36,7 +36,13 @@ export async function exercise3(): Promise<void> {
   // console.log(oldValue);
 
   const randomValue = `hello ${Math.random() * 10}`;
-  await deployedContract.methods.setValue(randomValue).send({ from: calle });
+  const transaction = await deployedContract.methods
+    .setValue(randomValue)
+    .send({ from: calle });
+  console.log(transaction);
+
+  const minedBlocked = await web3.eth.getBlock(transaction['blockHash']);
+  console.log(minedBlocked);
 
   const newValue = await deployedContract.methods.getValue().call();
   // console.log(newValue);
