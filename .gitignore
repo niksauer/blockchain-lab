@@ -13,3 +13,4 @@ package-lock.json
 .env
 
 bitcoin-data/
+ganache-data/

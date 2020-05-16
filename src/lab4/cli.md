@@ -1,0 +1,141 @@
+# Exercise 1
+
+https://web3js.readthedocs.io/en/v1.2.7/web3-eth-accounts.html#create
+
+```shell
+$ node
+
+# import and generate new Web3 client
+$ const Web3 = require('web3')
+$ const web3 = new Web3('ws://localhost:8545')
+
+# create new account
+$ let newAccount = web3.eth.accounts.create()
+
+{
+  address: '0xE2394367C86Ab24b92399af5aF1f054EE1Be8159',
+  privateKey: '0x1c5dd3508bec41902682063271364c8a9d780e3ee14430d2ababf14a14cfc607',
+  signTransaction: [Function: signTransaction],
+  sign: [Function: sign],
+  encrypt: [Function: encrypt]
+}
+
+# get current balance of new account
+$ web3.eth.getBalance(accounts[0])
+
+0000000000000000000
+
+# show unlocked addresses
+$ let accounts = await web3.eth.getAccounts()
+
+[
+    '0x41c1c3d1F21a46aB84E4535167044676c30875BE',
+    '0xDcD170da81aD6c04f6dDe9c4D0981651Ca4Cdf23',
+    '0x1F13D1EE1ABf9B58C5ff7F57effFBe03db6BF762',
+    '0xAD944de261bb0a331DEf7f06dA30503750a9D5BA',
+    '0x3DC8f0570B871ae854b6367429C547Bfa716c9A2',
+    '0xf01e07fEE49DA1B4770b143a575ac0Aa83EAc0E8',
+    '0x1D3aB9ac0d541d891631E22D021C9B4B9D8A3e21',
+    '0x5c03b04dEECC88ffFB89bf999a5aeeded09a2CF5',
+    '0xb9170c89c85FAdC8abC79cC6F0053A601F7c6a73',
+    '0xDd3a7bf06e7234A154900E1FB0295679b30866B6'
+]
+
+# get current balance of first account
+$ web3.eth.getBalance(accounts[0])
+
+998999999999999958000
+
+# send 1 ETH from first account to new account
+let transaction = web3.eth.sendTransaction({ from: accounts[0], to: newAccount.address, value: web3.utils.toWei('1', 'ether')})
+
+{
+    transactionHash: '0x386b894c812609f00e9d305cc506863326f6116a8067c57214f026c5865c64bd',
+    transactionIndex: 0,
+    blockHash: '0x8e5aa34e4946293b3349f60a3e5f2f5420985aa5c0a7337c886136f13a1b3ae4',
+    blockNumber: 2,
+    from: '0x41c1c3d1f21a46ab84e4535167044676c30875be',
+    to: '0xe2394367c86ab24b92399af5af1f054ee1be8159',
+    gasUsed: 21000,
+    cumulativeGasUsed: 21000,
+    contractAddress: null,
+    logs: [],
+    status: true,
+    logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+  },
+  _events: Events <[Object: null prototype] {}> {},
+  emit: [Function: emit],
+  on: [Function: on],
+  once: [Function: once],
+  off: [Function: removeListener],
+  listeners: [Function: listeners],
+  addListener: [Function: on],
+  removeListener: [Function: removeListener],
+  removeAllListeners: [Function: removeAllListeners],
+  _eventsCount: 0
+}
+
+# get new balance of first account
+$ web3.eth.getBalance(accounts[0])
+
+997999999999999958000
+
+# get new balance of new account
+$ web3.eth.getBalance(newAccount)
+
+1000000000000000000
+
+# get information about block that holds transaction
+$ let block = web3.eth.getBlock(transaction.blockHash)
+
+{
+    number: 2,
+    hash: '0x8e5aa34e4946293b3349f60a3e5f2f5420985aa5c0a7337c886136f13a1b3ae4',
+    parentHash: '0x90c8462d18cc4f29ff496921f9cfabb6e652433063d7803fcb9ab7a5509ea9c8',
+    mixHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    nonce: '0x0000000000000000',
+    sha3Uncles: '0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347',
+    logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    transactionsRoot: '0xfc7c0c734929661cf4cabe88ac4a764315f1f16d56c517f0ec20f0270ed68624',
+    stateRoot: '0xf8821893153bee8d5408d8e08859dee4d93544033591957237b1ce6e9520a212',
+    receiptsRoot: '0x056b23fbba480696b65fe5a59b8f2148a1299103c4f57df839233af2cf4ca2d2',
+    miner: '0x0000000000000000000000000000000000000000',
+    difficulty: '0',
+    totalDifficulty: '0',
+    extraData: '0x',
+    size: 1000,
+    gasLimit: 6721975,
+    gasUsed: 21000,
+    timestamp: 1589556135,
+    transactions: [
+      '0x386b894c812609f00e9d305cc506863326f6116a8067c57214f026c5865c64bd'
+    ],
+    uncles: []
+}
+```
+
+# Exercise 3
+
+```shell
+# bitcoin-cli createrawtransaction
+#    '[{
+#        "txid" : "<txid_of_selected_block>",
+#        "vout" : <vout>
+#    }]'
+#    '{"<recipient_address>": <amount_to_send>, "<sender_address>": <amount_change>}'
+
+$ docker-compose exec --user bitcoin bitcoind bitcoin-cli -rpcuser=bitcoin -rpcpassword=verysecure -testnet createrawtransaction '[{ "txid": "170c183060733aaeb630453c1f4f23fe066117f0c15abe2227e0d6573d3725c3", "vout": 0 }]' '{ "mnXqbqxy5G5kB71qj59WNwTBbbtucobJDk": 0.001, "2N7mrc8mGVXxAg6ViWZVR1ewcFgSB8ogVWv": 0.005}'
+
+0200000001c325373d57d6e02722be5ac1f0176106fe234f1f3c4530b6ae3a736030180c170000000000ffffffff02a0860100000000001976a9144cf3b58df8f75848de48e00f84b0dffda199e7bc88ac20a107000000000017a9149f5cce9d771fabc825e2b725055bac64d32ed64b8700000000
+
+$ docker-compose exec --user bitcoin bitcoind bitcoin-cli -rpcuser=bitcoin -rpcpassword=verysecure -testnet signrawtransactionwithwallet 0200000001c325373d57d6e02722be5ac1f0176106fe234f1f3c4530b6ae3a736030180c170000000000ffffffff02a0860100000000001976a9144cf3b58df8f75848de48e00f84b0dffda199e7bc88ac20a107000000000017a9149f5cce9d771fabc825e2b725055bac64d32ed64b8700000000
+
+{
+  "hex": "02000000000101c325373d57d6e02722be5ac1f0176106fe234f1f3c4530b6ae3a736030180c170000000017160014e378f660727fa1c9ccb5187dccfb2818845a47d0ffffffff02a0860100000000001976a9144cf3b58df8f75848de48e00f84b0dffda199e7bc88ac20a107000000000017a9149f5cce9d771fabc825e2b725055bac64d32ed64b8702473044022079bd1e1a4f12f33522f70152531e5d6765be15ae046f06d90e420a3ee77796d60220527db384eebf83470fcb61b614748b2b89e2811bd0aa7087d05c89d3d4cd0a3a0121028cac76c2ddd1312fce37e89e014d2cf2b9892ea97b6e5338165276784e9a927a00000000",
+  "complete": true
+}
+
+$ docker-compose exec --user bitcoin bitcoind bitcoin-cli -rpcuser=bitcoin -rpcpassword=verysecure -testnet sendrawtransaction 02000000000101c325373d57d6e02722be5ac1f0176106fe234f1f3c4530b6ae3a736030180c170000000017160014e378f660727fa1c9ccb5187dccfb2818845a47d0ffffffff02a0860100000000001976a9144cf3b58df8f75848de48e00f84b0dffda199e7bc88ac20a107000000000017a9149f5cce9d771fabc825e2b725055bac64d32ed64b8702473044022079bd1e1a4f12f33522f70152531e5d6765be15ae046f06d90e420a3ee77796d60220527db384eebf83470fcb61b614748b2b89e2811bd0aa7087d05c89d3d4cd0a3a0121028cac76c2ddd1312fce37e89e014d2cf2b9892ea97b6e5338165276784e9a927a00000000
+
+4bfa6c837100836d86c64ceda47a53092b72bffe603a177547242e8654220156
+```
