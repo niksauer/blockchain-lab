@@ -3,7 +3,8 @@ import { ETH_PRIVATE_KEY } from '../secrets';
 import { assert } from '../lib/assert';
 
 export async function exercise2(): Promise<void> {
-  const web3 = new Web3('ws://localhost:8545');
+  const provider = new Web3.providers.WebsocketProvider('ws://localhost:8545');
+  const web3 = new Web3(provider);
 
   // get pre-funded, unlocked accounts (Ganache-only)
   // funding amount configured in docker-compose config
@@ -65,4 +66,6 @@ export async function exercise2(): Promise<void> {
     );
     console.log(minedBlock);
   }
+
+  provider.disconnect(0, 'Finished'); // Process won't exit because websocket is kept open
 }

@@ -5,15 +5,19 @@ import { ETH_GET_SET_CONTRACT_ADDRESS } from '../secrets';
 import { assert } from '../lib/assert';
 
 export async function exercise3(): Promise<void> {
-  const web3 = new Web3('ws://localhost:8545');
+  const provider = new Web3.providers.WebsocketProvider('ws://localhost:8545');
+  const web3 = new Web3(provider);
 
   // Get unlocked accounts
   const accounts = await web3.eth.getAccounts();
-  const deployer = accounts[0];
+  const deployer = accounts[0]; // any address can deploy contract provided that it has enough funds
+  const calle = accounts[1]; // any address can interact with contract
 
+  // Get compilation results
+  // For interaction, only ABI is required
   const contractCompilation = await loadContractCompilationResult();
 
-  // Deploy contract again
+  // Deploy contract
   // const deployedContractAddress = await deployContract(
   //   web3,
   //   contractCompilation.abi,
@@ -23,20 +27,23 @@ export async function exercise3(): Promise<void> {
   // console.log(deployedContractAddress); // store in ETH_GET_SET_CONTRACT_ADDRESS env variable
 
   // Interact with deployed contract
-  const callee = accounts[0]; // any address can interact with contract
-
   const deployedContract = new web3.eth.Contract(
     contractCompilation.abi,
     ETH_GET_SET_CONTRACT_ADDRESS
   );
 
-  await deployedContract.methods.setValue('hello').call();
+  const oldValue = await deployedContract.methods.getValue().call(); // calling can not alter the smart contract state.
+  // console.log(oldValue);
 
-  const newValue = await deployedContract.methods
-    .getValue()
-    .call({ from: callee });
+  const randomValue = `hello ${Math.random() * 10}`;
+  await deployedContract.methods.setValue(randomValue).send({ from: calle });
 
-  assert(newValue == 'hello', 'Expected contract value to match set value');
+  const newValue = await deployedContract.methods.getValue().call();
+  // console.log(newValue);
+
+  assert(newValue == randomValue, 'Expected contract value to match set value');
+
+  provider.disconnect(0, 'Finished'); // Process won't exit because websocket is kept open
 }
 
 export async function loadContractCompilationResult(): Promise<{
