@@ -15,7 +15,9 @@ export async function exercise3(): Promise<void> {
 
   // Get compilation results
   // For interaction, only ABI is required
-  const contractCompilation = await loadContractCompilationResult();
+  const contractCompilation = await loadContractCompilationResult(
+    path.resolve(__dirname, `../../../bin/src/lab4/GetSetValue.json`)
+  );
 
   // Deploy contract
   // const deployedContractAddress = await deployContract(
@@ -52,15 +54,14 @@ export async function exercise3(): Promise<void> {
   provider.disconnect(0, 'Finished'); // Process won't exit because websocket is kept open
 }
 
-export async function loadContractCompilationResult(): Promise<{
+export async function loadContractCompilationResult(
+  filePath: string
+): Promise<{
   abi: any;
   bytecode: string;
 }> {
   // Load contract compilation result
-  const source = fs.readFileSync(
-    path.resolve(__dirname, '../../../bin/src/lab4/GetSetValue.json'),
-    { encoding: 'utf8' }
-  );
+  const source = fs.readFileSync(filePath, { encoding: 'utf8' });
   const compiledContract = JSON.parse(source);
 
   // Get Application Binary Interface detailing which functions/properties exist on contract
@@ -79,11 +80,14 @@ export async function deployContract(
   web3: Web3,
   abi: any,
   bytecode: string,
-  deployerAddress: string
+  deployerAddress: string,
+  ...args: any
 ): Promise<string> {
   // Construct contract from ABI for subsequent deployment and future interaction
   const contract = new web3.eth.Contract(abi);
-  const deployer = contract.deploy({ data: bytecode });
+
+  // https://web3js.readthedocs.io/en/v1.2.0/web3-eth-contract.html#deploy
+  const deployer = contract.deploy({ data: bytecode, arguments: args });
 
   // Estimate gas necessary for deployment
   const gas = await deployer.estimateGas();
