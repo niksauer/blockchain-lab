@@ -1,5 +1,7 @@
 version: "3.4"
 
+# docker-compose -f docker-compose-ganache.yml up
+
 services:
   ganache:
     image: trufflesuite/ganache-cli:latest

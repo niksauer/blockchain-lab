@@ -1,0 +1,15 @@
+version: '3.4'
+
+# docker-compose -f docker-compose-geth.yml up
+
+services:
+  geth:
+    # https://hub.docker.com/r/ethereum/client-go/
+    image: ethereum/client-go
+    # https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options
+    command: --goerli --syncmode light
+    volumes:
+      - ./geth-data:/root
+    ports:
+      - 8545:8545
+      - 30303:30303

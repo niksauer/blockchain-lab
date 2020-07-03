@@ -14,3 +14,4 @@ package-lock.json
 
 bitcoin-data/
 ganache-data/
+geth-data/

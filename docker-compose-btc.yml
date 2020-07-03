@@ -1,5 +1,7 @@
 version: "3.4"
 
+# docker-compose -f docker-compose-btc.yml up
+
 # https://bitcoincore.org/en/doc/0.19.0/
 # curl -v --data-binary '{"jsonrpc":"1.0","id":"1","method":"getnetworkinfo","params":[]}' http://bitcoin:verysecure@localhost:18332/
 # docker run -it --network=host --rm ruimarinho/bitcoin-core bitcoin-cli -rpcconnect=localhost -rpcuser=bitcoin -rpcpassword=verysecure -testnet getmininginfo
