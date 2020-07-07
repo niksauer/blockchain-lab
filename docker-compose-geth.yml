@@ -7,7 +7,7 @@ services:
     # https://hub.docker.com/r/ethereum/client-go/
     image: ethereum/client-go
     # https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options
-    command: --goerli --syncmode light
+    command: --goerli --syncmode light --http --http.addr '0.0.0.0' --http.corsdomain '*' --http.api 'admin,debug,web3,eth,txpool,personal,clique,net,les,lespay' --http.vhosts '*' --allow-insecure-unlock
     volumes:
       - ./geth-data:/root
     ports:
