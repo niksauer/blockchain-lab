@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^3.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bip39": "^3.0.2",
     "bitcoin-json-rpc": "^1.0.1",
     "bitcoinjs-lib": "^5.1.7",
